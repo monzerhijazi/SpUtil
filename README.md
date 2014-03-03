@@ -74,6 +74,8 @@ list.getItemById(1, {
 	}
 });
 
+```
+
 When returning list items SpUtil will always create an object for you with all of its values accessible as properties using the field's static name. (yaay no more get_item calls!) 
 So you can easily get the item's title by using the Title field's static name: item.Title.
 
@@ -88,6 +90,7 @@ list.getAllItems({
 		alert(i.Title);
 	}
 });
+
 ```
 
 ##Iterate over all list items
