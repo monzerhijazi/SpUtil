@@ -23,10 +23,42 @@ You initialize your list via the following command:
 var list = new SpListUtil("list_title");
 
 //or by list GUID
-
-var list = new SpListUtil("list_guid");
+var list = new SpListUtil("list_guid", { type: 'id' });
 
 ```
-You now have access to your SharePoint list and can use all of itsutility functions!
+You now have access to your SharePoint list and can use all of its utility functions!
 
 ###Get List Info
+
+Our utility will can grab the following about your list upon initialization:
+1. Your list's title
+2. Your list's URL
+3. Your list's ID
+4. Your list's fields and their info
+	* the field's type
+	* the field's static name
+	* the field's display name
+	* if the field is required
+	* if the field is hidden
+	* the field's choices (for lookup and choice fields)
+	* and more...
+
+You can get this info in a couple ways:
+
+```
+//set the getListInfo option to true when initializing your list
+var list2 = new SpListUtil("list_title", { 
+	getListInfo: true,
+	onInit: function(list){
+		//do what you want with the list info
+	}});
+
+//use the getListInfo function
+list.getListInfo(function(list){
+	//do what you need to do
+});
+
+//note: using any of the utility functions will also get your list info if you haven't done so already
+
+```
+
