@@ -53,18 +53,26 @@ var list2 = new SpListUtil("list_title", {
 	getListInfo: true,
 	onInit: function(list){
 		//do what you want with the list info
+		console.log(list.listName);
+		console.log(list.listUrl);
+		console.log(list.listId);
+		console.log(list.fields); //array of fields with info
 	}});
 
 //use the getListInfo function
 list.getListInfo(function(list){
 	//do what you need to do
+	console.log(list.listName);
+	console.log(list.listUrl);
+	console.log(list.listId);
+	console.log(list.fields); //array of fields with info
 });
 
 //note: using any of the other SpListUtil utility functions will also get your list info if you haven't done so already
 
 ```
 
-##Get Item by ID
+###Get Item by ID
 You can easily get an item by its ID
 ```
 list.getItemById(1, {
@@ -81,7 +89,41 @@ So you can easily get the item's title by using the Title field's static name: i
 
 This makes development so much easier because you're not stuck wondering if you have the right static name or not, much less trial and error.
 
-##Getting all list items
+###Update Item
+Just like getting item field values, updating them is simple. You just updated the field directly and call the item's update command when you're done.
+```
+item.Title = "New Title!";
+item.update({
+	success: function(item){
+		//do what you need here
+	},
+	error: function(err){
+		//do what you need
+	}
+});
+```
+
+###Create Item
+Creating an item requires you knowing the static names of your list's field you can get those using the getListInfo function. 
+Once you know them, creating an item is as simple as creating a JavaScript object.
+
+```
+
+list.create({
+	Title: "Some title"
+	//fieldName : fieldVal
+},
+{
+	success: function(item){
+		//do something with item
+	},
+	error: function(err){}
+});
+
+```
+
+
+###Getting all list items
 ```
 list.getAllItems({
 	success: function(items){
@@ -93,18 +135,40 @@ list.getAllItems({
 
 ```
 
-##Iterate over all list items
+###Iterate over all list items
 You can call a list's .each command and pass a function which will get called on each item in that list. 
 ```
 list.each(function(item){
-	//do something with item
+	//do something with for each item
+	console.log(item.Title);
 });
 
 //you can also pass in a function which is called after the iteration is done
 list.each(function(item){
-
+	//do something per item
 }, {
 	complete: function(items){
-		//do something
+		//do something when all items processed
+		console.log(item.Title);
 	}
 });
+
+```
+
+###Query Items
+Use CAML to query a list with the query function.
+```
+list.query({
+	ViewFields: ['Title', 'ID'], //optional if none are provided all fields are returned
+	RowLimit: 10, //optional
+	OrderBy: 'ID', //optional
+	Query: {
+		Where: "<Eq><FieldRef Name='Title' /><Value Type='Text'>A title</Value><Eq/>"
+	}.
+	complete: function(items){
+		//do something with items array
+	}
+});
+
+
+```
